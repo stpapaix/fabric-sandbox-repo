@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Ingest_yellow_trip_data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9fffc3a1-9676-a7ee-4558-ddf79f013f7e"
+  }
+}
