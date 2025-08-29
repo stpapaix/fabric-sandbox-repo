@@ -1,0 +1,86 @@
+{
+  "pipeline": {
+    "name": "fabric_sandbox_datapipeline",
+    "version": "1.0.0",
+    "description": "MS Fabric Sandbox Data Pipeline for customer transaction processing",
+    "environment": "sandbox"
+  },
+  "lakehouse": {
+    "name": "fabric_sandbox_lakehouse",
+    "location": "onelake://workspace/lakehouse",
+    "storage_format": "delta"
+  },
+  "data_sources": {
+    "azure_sql": {
+      "type": "azure_sql_database",
+      "server": "example.database.windows.net",
+      "database": "source_db",
+      "authentication": "managed_identity",
+      "tables": [
+        "customer_transactions",
+        "customer_master",
+        "product_catalog"
+      ]
+    },
+    "blob_storage": {
+      "type": "azure_blob_storage",
+      "account": "storageaccount",
+      "container": "raw-data",
+      "authentication": "managed_identity"
+    },
+    "api_endpoint": {
+      "type": "rest_api",
+      "base_url": "https://api.example.com",
+      "authentication": "api_key"
+    }
+  },
+  "notebooks": {
+    "01_data_ingestion": {
+      "description": "Ingest raw data from source systems to Bronze layer",
+      "schedule": "0 2 * * *",
+      "retry_count": 3,
+      "timeout_minutes": 60,
+      "compute": {
+        "node_size": "Small",
+        "auto_terminate_minutes": 30
+      }
+    },
+    "02_data_transformation": {
+      "description": "Transform and enrich data from Bronze to Silver layer",
+      "schedule": "0 4 * * *",
+      "retry_count": 3,
+      "timeout_minutes": 90,
+      "compute": {
+        "node_size": "Medium",
+        "auto_terminate_minutes": 30
+      }
+    },
+    "03_data_aggregation": {
+      "description": "Create aggregated business metrics in Gold layer",
+      "schedule": "0 6 * * *",
+      "retry_count": 2,
+      "timeout_minutes": 45,
+      "compute": {
+        "node_size": "Small",
+        "auto_terminate_minutes": 30
+      }
+    }
+  },
+  "data_quality": {
+    "validation_rules": {
+      "null_tolerance": 0.05,
+      "duplicate_tolerance": 0.01,
+      "freshness_threshold_hours": 24
+    },
+    "monitoring": {
+      "enabled": true,
+      "alert_email": "data-team@company.com"
+    }
+  },
+  "security": {
+    "data_classification": "internal",
+    "encryption_at_rest": true,
+    "encryption_in_transit": true,
+    "access_control": "rbac"
+  }
+}
