@@ -1,0 +1,14 @@
+[
+  {
+    "name": "bronze-sandbox",
+    "path": "/Files",
+    "target": {
+      "type": "AdlsGen2",
+      "adlsGen2": {
+        "connectionId": "a4209444-60ef-43f9-86a4-80dda02f9505",
+        "location": "https://mystephadlsgen2.dfs.core.windows.net",
+        "subpath": "/bronze-sandbox"
+      }
+    }
+  }
+]
